@@ -85,18 +85,29 @@ public class prodServlet extends HttpServlet {
 	         String input = request.getParameter("prod_id");
 	         String sql = "SELECT * FROM Products WHERE ID='" + input + "';";
 	         ResultSet rs = stmt.executeQuery(sql);
-
-	         // Extract data from result set
-	         while(rs.next()){
-	            //Retrieve by column name
-	            int id  = rs.getInt("id");
-	            int name = rs.getInt("namw");
-	            
-
-	            //Display values
-	            out.println("ID: " + id + "<br>");
-	            out.println(", Name: " + name + "<br>");
+	         
+	         if (rs.next() == false) 
+	         { 
+	        	 out.println("No result found"); 
 	         }
+	         else
+	         {
+	        	// Extract data from result set
+		         do 
+		         {
+		            //Retrieve by column name
+		            int id  = rs.getInt("id");
+		            int name = rs.getInt("name");
+		            
+
+		            //Display values
+		            out.println("ID: " + id + "<br>");
+		            out.println(", Name: " + name + "<br>");
+		            
+		         } while(rs.next());
+	         }
+
+
 	         out.println("</body></html>");
 
 	         // Clean-up environment
