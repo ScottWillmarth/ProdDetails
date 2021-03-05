@@ -47,6 +47,8 @@ public class prodServlet extends HttpServlet {
 		out.println("</body></html>");
 		*/
 		
+		
+		
 		// JDBC driver name and database URL
 	      final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	      final String DB_URL="jdbc:mysql://localhost/TEST";
@@ -88,15 +90,12 @@ public class prodServlet extends HttpServlet {
 	         while(rs.next()){
 	            //Retrieve by column name
 	            int id  = rs.getInt("id");
-	            int age = rs.getInt("age");
-	            String first = rs.getString("first");
-	            String last = rs.getString("last");
+	            int name = rs.getInt("namw");
+	            
 
 	            //Display values
 	            out.println("ID: " + id + "<br>");
-	            out.println(", Age: " + age + "<br>");
-	            out.println(", First: " + first + "<br>");
-	            out.println(", Last: " + last + "<br>");
+	            out.println(", Name: " + name + "<br>");
 	         }
 	         out.println("</body></html>");
 
