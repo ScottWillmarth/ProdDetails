@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,25 +38,14 @@ public class prodServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		/*
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		
-		out.println("<html><body>");
-		out.println("This is your ID: " + request.getParameter("prod_id"));
-		out.println("</body></html>");
-		*/
-		
-		
-		
+	{		
 		// JDBC driver name and database URL
 	      final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	      final String DB_URL="jdbc:mysql://localhost/TEST";
+	      final String DB_URL="jdbc:mysql://localhost:3306/pets";
 
 	      //  Database credentials
 	      final String USER = "root";
-	      final String PASS = "password";
+	      final String PASS = "";
 
 	      // Set response content type
 	      response.setContentType("text/html");
@@ -70,20 +60,27 @@ public class prodServlet extends HttpServlet {
 	         "<head><title>" + title + "</title></head>\n" +
 	         "<body bgcolor = \"#f0f0f0\">\n" +
 	         "<h1 align = \"center\">" + title + "</h1>\n");
+	      
+	      
 	      try 
 	      {
+	    	 
 	         // Register JDBC driver
-	         Class.forName("com.mysql.jdbc.Driver");
-
-	         // Open a connection
+	         Class.forName(JDBC_DRIVER);
+	         
+	         // Open a connection    
+	    	  
 	         Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
+	         
 	         // Execute SQL query
 	         java.sql.Statement stmt = conn.createStatement();
 	         /////////
 	         
 	         String input = request.getParameter("prod_id");
-	         String sql = "SELECT * FROM Products WHERE ID='" + input + "';";
+	         
+	         String sql = "SELECT * FROM `products` WHERE `id` = " + input + ";";
+	         //String sql = "SELECT * FROM `products` WHERE `id` = 1;";
+	         
 	         ResultSet rs = stmt.executeQuery(sql);
 	         
 	         if (rs.next() == false) 
@@ -96,13 +93,16 @@ public class prodServlet extends HttpServlet {
 		         do 
 		         {
 		            //Retrieve by column name
+		            String name = rs.getString("name");
+		            String color = rs.getString("color");
+		            double price  = rs.getDouble("price");
 		            int id  = rs.getInt("id");
-		            int name = rs.getInt("name");
-		            
 
 		            //Display values
+		            out.println("Name: " + name + "<br>");
+		            out.println("Color: " + color + "<br>");
+		            out.println("Price: " + price + "<br>");
 		            out.println("ID: " + id + "<br>");
-		            out.println(", Name: " + name + "<br>");
 		            
 		         } while(rs.next());
 	         }
